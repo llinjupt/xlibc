@@ -32,7 +32,6 @@ macro with your own toolchain.<br>
 ./make will generate libx.a and libx.so, use them with -L and -l directly.<br> 
 <br> 
 3. How to test xlib functions<br> 
----
 Enable CFLAGS  += -DTEST in Makefile and do make xtest, then run it to<br> 
 traverse all test functions defined in every individual xxx.c files.<br> 
 <br> 
