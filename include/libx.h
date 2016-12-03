@@ -43,4 +43,7 @@
 /* en/decoding */
 #include "xurl.h"
 
+/* xfile configure loader */
+#include "xfcfg.h"
+
 #endif /* _LIBX_H */
