@@ -18,6 +18,7 @@ void test_xcrc32();
 void test_xcrc8();
 void test_socket();
 void test_xurl();
+void test_xfcfg();
 int main(int argc, char *argv[])
 {
 #ifdef TEST  
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
   test_xcrc8();
   test_socket();
   test_xurl();
+  test_xfcfg();
 #endif
   
   return 0;
