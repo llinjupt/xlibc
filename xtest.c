@@ -9,7 +9,7 @@ void test_xsystem(int argc, char *argv[]);
 void test_xgetcmdline(int argc, char *argv[]);
 void test_xalloc();
 void test_xcharstr();
-void test_file();
+void test_xfile();
 void test_xexccmd();
 void test_xtime();
 void test_xnetif();
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   test_xgetcmdline(argc, argv);
   test_xalloc();
   test_xcharstr();
-  test_file();
+  test_xfile();
   test_xmac();
   test_xexccmd();
   test_xtime();

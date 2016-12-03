@@ -383,7 +383,7 @@ void *xfile_read(int fd, size_t *size)
 
 #ifdef TEST
 #define TEST_FILE "/tmp/tmp"
-void test_file()
+void test_xfile()
 {
   /* 1. test xfile_fd */
   FILE *fp = fopen("/dev/null", "w");
@@ -392,7 +392,7 @@ void test_file()
   /* no need to close fd */
   int fd = xfile_fd(fp);
   fclose(fp); 
-  
+
   /* 2. test xfile_fp */
   fd = open("/dev/null", O_RDONLY);
   xassert(fd >= 0);
@@ -420,7 +420,7 @@ void test_file()
   close(fd);
 #endif
   fd = open("/tmp/test", O_WRONLY);
-  if(fp)
+  if(fd >= 0)
   {
     char *result = NULL;
     size_t count = 0;
