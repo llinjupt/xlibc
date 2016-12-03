@@ -33,4 +33,9 @@ macro with your own toolchain.
 Enable CFLAGS  += -DTEST in Makefile and do make xtest, then run it to
 traverse all test functions defined in every individual xxx.c files.
 
+4. How to extend the xlib
+It's easy no bother Makefile. Just put the public .h files to ./include 
+directory and .c files to ./src. And remake it. xlib only with one 
+Makefile and do everything well automatically. Enjoy it.
+
 Note: Third party codes collected obey its own licenses.
