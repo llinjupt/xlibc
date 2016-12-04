@@ -141,7 +141,7 @@ int xgetexe_bypid(int pid, char *buf, int size)
  * lrwxrwxrwx    1 root     root            6 Apr 10 03:02 /usr/sbin/udhcpc -> udhcpd
  *
  * then if run udhcpc, then you need give udhcpc as name, not udhcpd even it's the real 
- * exe
+ * binary cmd
  */
 int xgetpid_byname(const char *procname, int *findpids, int size)
 {

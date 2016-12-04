@@ -15,21 +15,21 @@
 /* bool */
 int xfcfg_parse_bool(const char *value, void *arg)
 {
-	char *dest = arg;
-	int ret = 0;
+  char *dest = arg;
+  int ret = 0;
 
-	if(strcasecmp(value, "yes") == 0
-	   || strcasecmp(value, "true") == 0
-	   || strcasecmp(value, "1") == 0)
-		*dest = 1;
-	else if(strcasecmp(value, "no") == 0
-	   || strcasecmp(value, "false") == 0
-	   || strcasecmp(value, "0") == 0)
-		*dest = 0;
-	else
-	  ret = -1;
+  if(strcasecmp(value, "yes") == 0
+     || strcasecmp(value, "true") == 0
+     || strcasecmp(value, "1") == 0)
+    *dest = 1;
+  else if(strcasecmp(value, "no") == 0
+     || strcasecmp(value, "false") == 0
+     || strcasecmp(value, "0") == 0)
+    *dest = 0;
+  else
+    ret = -1;
 
-	return ret;
+  return ret;
 }
 
 /* ipv4 like 192.168.0.1 */
@@ -189,7 +189,7 @@ int xfcfg_from_file(xfcfg_option_t *xfcfg_options, char *file)
   }
 
   fclose(fp);
-	return 0;
+  return 0;
 }
 
 #ifdef TEST
@@ -204,12 +204,12 @@ void test_xfcfg()
 
   xfcfg_option_t xfcfg_options[] = 
   {
-    {"cfg_bool",	  xfcfg_parse_bool,  &xfcfg_cfg_bool,	 "0"},
-    {"cfg_int", 	  xfcfg_parse_int,   &xfcfg_cfg_int,	 "0"},
-    {"cfg_str",	    xfcfg_parse_str,   xfcfg_cfg_str,	   "0"},
-    {"cfg_ipv4",	  xfcfg_parse_ipv4,  &xfcfg_cfg_ipv4,	 "0"},
-    {"cfg_ipv4str",	xfcfg_parse_ipv4str,xfcfg_cfg_ipv4str,"192.168.10.1"},
-    {"cfg_mac",    	xfcfg_parse_mac,    xfcfg_cfg_mac,    "00:11:22:33:44:55"},
+    {"cfg_bool",    xfcfg_parse_bool,  &xfcfg_cfg_bool,   "0"},
+    {"cfg_int",     xfcfg_parse_int,   &xfcfg_cfg_int,   "0"},
+    {"cfg_str",      xfcfg_parse_str,   xfcfg_cfg_str,     "0"},
+    {"cfg_ipv4",    xfcfg_parse_ipv4,  &xfcfg_cfg_ipv4,   "0"},
+    {"cfg_ipv4str",  xfcfg_parse_ipv4str,xfcfg_cfg_ipv4str,"192.168.10.1"},
+    {"cfg_mac",      xfcfg_parse_mac,    xfcfg_cfg_mac,    "00:11:22:33:44:55"},
     {"cfg_size",    xfcfg_parse_size,   &xfcfg_cfg_size,  "1024"},
     
     {"", NULL, NULL, ""},
