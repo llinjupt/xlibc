@@ -1,9 +1,9 @@
-# xlib
+# xlibc
 ===
 An eXtended C library of collected functions about genral String, Memory, DB,<br> 
 Algorithm, Net and etc. operations.<br> 
 <br> 
-Not like glibc which is a huge and complex lib, this xlib is a tiny extened<br> 
+Not like glibc which is a huge and complex lib, this xlibc is a tiny extened<br> 
 function groups, used for general Unix-Like OS, especially for Embedded systems. <br> 
 It aims to help engineens develop a C program quickly and canonically. Lots of<br> 
 functions were enlightened by other open source projects.<br> 
@@ -22,22 +22,22 @@ There are a lot of parts listed below, and will be extended day after day.<br>
 10. Some third party opensource libs or .c files: cJSON.c base64.c<br> 
 ...<br> 
 <br> 
-How to compile, test and use xlib:<br> 
+How to compile, test and use xlibc:<br> 
 ---
-1. Cross compile xlib<br> 
+1. Cross compile xlibc<br> 
 make.def defined the Cross compile tools' path. Redefine CROSS_COMPILE<br> 
 macro with your own toolchain.<br> 
 <br> 
 2. How to make<br> 
 ./make will generate libx.a and libx.so, use them with -L and -l directly.<br> 
 <br> 
-3. How to test xlib functions<br> 
+3. How to test xlibc functions<br> 
 Enable CFLAGS  += -DTEST in Makefile and do make xtest, then run it to<br> 
 traverse all test functions defined in every individual xxx.c files.<br> 
 <br> 
-4. How to extend the xlib<br> 
+4. How to extend the xlibc<br> 
 It's easy no bother Makefile. Just put the public .h files to ./include <br> 
-directory and .c files to ./src. And remake it. xlib only with one <br> 
+directory and .c files to ./src. And remake it. xlibc only with one <br> 
 Makefile and do everything well automatically. Enjoy it.<br> 
 <br> 
 Note: Third party codes collected obey its own licenses.<br> 
