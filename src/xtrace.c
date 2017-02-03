@@ -33,14 +33,14 @@ const static char alloc_type_names[ALLOC_MAX_TYPE][16] =
 
 static void alloc_node_dump(alloc_node_t *data)
 {
-  printf("%s/%s(%d)= (%-8s,\t%d, %p)\n", data->file, data->func, data->line,
+  printf("%s/%s(%d)= (%-8s,\t%lu, %p)\n", data->file, data->func, data->line,
          alloc_type_names[data->type], data->size, data->addr);
 }
 
 /* use addr to cacualte key */
 static unsigned int alloc_node_hash_key(alloc_node_t *node)
 {
-  return (unsigned int)node->addr;
+  return (long)node->addr;
 }
 
 static int alloc_node_hash_cmp_key(alloc_node_t *node1, alloc_node_t *node2)

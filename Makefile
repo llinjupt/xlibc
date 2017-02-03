@@ -50,8 +50,8 @@ CFLAGS += -ggdb3
 endif
 
 #c file compile parameters and linked libraries
-CPPFLAGS    = 
-LDFLAGS	    = -lm #-fPIC
+CPPFLAGS    = -fPIC
+LDFLAGS	    = -lm
 XLDFLAGS   = -Xlinker "-(" $(LDFLAGS) -Xlinker "-)"
 LDLIBS		 += -L $(LIB_DIR) 
 
