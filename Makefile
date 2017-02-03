@@ -51,7 +51,7 @@ endif
 
 #c file compile parameters and linked libraries
 CPPFLAGS    = 
-LDFLAGS	    = -lm -fPIC
+LDFLAGS	    = -lm #-fPIC
 XLDFLAGS   = -Xlinker "-(" $(LDFLAGS) -Xlinker "-)"
 LDLIBS		 += -L $(LIB_DIR) 
 

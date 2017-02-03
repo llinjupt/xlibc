@@ -13,6 +13,14 @@
 #define false 0
 #endif
 
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
 #include "xalloc.h"
 #include "xdebug.h"
 #include "xexccmd.h"
