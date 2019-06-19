@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
@@ -61,7 +61,7 @@ int xfcfg_parse_str(const char *value, void *arg)
   if(value == NULL)
     return -1;
 
-  xstrncpy(tmp, value, 256);
+  xstrncpy(tmp, value, XFCFG_DEFAULT_MAX_LEN);
 
   return 0;
 }
@@ -196,7 +196,7 @@ int xfcfg_from_file(xfcfg_option_t *xfcfg_options, char *file)
 void test_xfcfg()
 {
   int xfcfg_cfg_bool = 0, xfcfg_cfg_int = 0;
-  char xfcfg_cfg_str[64] = "";
+  char xfcfg_cfg_str[XFCFG_DEFAULT_MAX_LEN] = "";
   int xfcfg_cfg_ipv4 = 0;
   char xfcfg_cfg_ipv4str[16] = "";
   unsigned char xfcfg_cfg_mac[6] = {0};
