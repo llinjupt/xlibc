@@ -16,7 +16,7 @@ There are a lot of parts listed below, and will be extended day after day.
 1. Character, String  and file functions with security checking.
 2. Very genral and convenient bitmap fucntions.
 3. A tiny memory tracking system. 
-4. An useful logging and debugging system: xdebug and xlogxxx.
+4. Useful logging and debugging APIs: [xdebug](http://blog.chinaunix.net/uid-20608849-id-365933.html).
 5. Data Structure: list, array , heap and queue functions 
 6. Net functions with ip/mac address. 
 7. TCP/UDP functions encapsulated for quick network operations 
