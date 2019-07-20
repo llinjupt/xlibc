@@ -4,7 +4,7 @@ An eXtended C library with lots of common used functions and data structures
 as genral String, Memory, DB, Algorithm, Net and etc. operations.
 
 And this tiny lib uses one-for-all Makefile, refet to [a common Makefile](http://blog.chinaunix.net/uid-20608849-id-360294.html),
-with it you do not need to update Makefile when you add new .c files.
+with it you do not need to update Makefile when you add new .c, .h files and folders.
 
 Not like glibc which is a huge and complex lib, this xlibc is a tiny extened
 function groups, used for general Unix-Like OS, especially for Embedded systems. 
