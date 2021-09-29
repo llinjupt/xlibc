@@ -21,9 +21,11 @@ void test_xurl();
 void test_xfcfg();
 void test_sm_func();
 void test_eloop();
+void test_xdebug();
 int main(int argc, char *argv[])
 {
 #ifdef TEST  
+  test_xdebug();
   test_xipaddr();
   test_xscript();
   test_xarray();

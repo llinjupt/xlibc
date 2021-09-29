@@ -1,7 +1,7 @@
 /*
  * Powered by BiTForest Co., Ltd 
  *
- * Copyright (C) 2018-2021 Reid Liu <lli_njupt@163.com>
+ * Copyright (C) 2018-2021 Red Liu <lli_njupt@163.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,31 +21,41 @@
 
 #ifndef XDEBUG_H
 #define XDEBUG_H
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <errno.h>
 #include <string.h>
 #include <syslog.h>
 
+/* Comment out to keep silient, all debug macros will be defined as none */
 #define XDEBUG
 
-//#define XDEBUG_PURE
-//#define XDEBUG_CGI
+/* Enable dumping funciton name, line no and file name */
+#define XDEBUG_VERBOSE
 
-/* For embeded OS should open it to accelerate */
-#define XDUMP_MACROS
-#define XLOG_WITH_PRINT
-
+/* If not provide fd for _xprintf to write, redirect messages into this file */
+#define XDEBUG_REDIRECT_FILE "/dev/console"
+        
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 #endif
 
 void _xprintf(FILE *fp, 
-        const char *filename, 
+              const char *filename, 
               const int line, 
               const char *funcname, 
               const char *fmt, ...)__attribute__((format(printf, 5, 6)));
 
+void _xassert(FILE *fp,
+              const char *filename,
+              const int line,
+              const char *funcname,
+              const char *expstr);
+
+void xdumphex(const void *addr, unsigned int len);
+
+#define XLOG_WITH_PRINT
 void _xsyslog(int priority,
               const char *filename,
               const int line,
@@ -56,13 +66,6 @@ int xlogfile(const char *file);
 int xloglevel(int level);
 int xlogfsize(long long fsize);
 
-void _xassert(FILE *fp,
-        const char *filename,
-              const int line,
-              const char *funcname,
-              const char *expstr);
-
-void xdumphex(const void *addr, unsigned int len);
 /*
  * IMPORTANT: Due to the way these color codes are emulated on Windows,
  * write them only using printf(), fprintf(), and fputs(). In particular,
@@ -92,7 +95,9 @@ void xdumphex(const void *addr, unsigned int len);
 
 void color_fprintf(FILE *fp, const char *color, const char *fmt, ...)__attribute__((format(printf, 3, 4)));
  
-/* xcprintf dump info with color discipline
+/* 
+ * xcprintf dump info with color disciplines:
+ *
  * color can be "foreground background textstyle"
  * foreground/background can be "red/green/yellow/blue/magenata/cyan"
  * textstyle can be "bold/empty"
@@ -104,61 +109,48 @@ void color_fprintf(FILE *fp, const char *color, const char *fmt, ...)__attribute
 /* xwprintf throws out normal info with green color */
 #define xiprintf(fmt...)  xcprintf("green bold", fmt)
 
-/* At least given one parameter for gcc variable length parameter usage 
- * xprintf(), xerror, xdie()... will encounter complaint by GCC.
+/* 
+ * At least give one parameter for gcc variable length parameter usage,
+ * otherwise xprintf(), xerror, xdie()... GCC will complain.
  */
 
-#ifdef XDUMP_MACROS
 #ifdef XDEBUG
-
-/*xprintf dump info to stdout */
-#ifdef XDEBUG_CGI
-#define xprintf(x...)  _xprintf(NULL, __FILE__, __LINE__, __FUNCTION__, x)
-#else
-#define xprintf(x...)  _xprintf(stdout, __FILE__, __LINE__, __FUNCTION__, x)
-#endif
-
-/*xerror dump info to stderr */
-#define xerror(x...)  {\
-                        _xprintf(stderr, __FILE__, __LINE__, __FUNCTION__, x); \
-                        color_fprintf(stderr, "red bold", "Tracing: %s\n", errno ? strerror(errno) : "Tracing failed"); \
-                      }
 
 #ifdef XDEBUG_CGI
 #define xassert(exp)  ((exp) ? (void)0 : _xassert(NULL, __FILE__, __LINE__, __FUNCTION__, #exp))
+#define xprintf(x...)  _xprintf(NULL, __FILE__, __LINE__, __FUNCTION__, x)
+#elif defined (XDEBUG_VERBOSE)
+#define xassert(exp)  ((exp) ? (void)0 : _xassert(stdout, __FILE__, __LINE__, __FUNCTION__, #exp))
+#define xprintf(x...)  _xprintf(stdout, __FILE__, __LINE__, __FUNCTION__, x)
 #else
+#define xprintf(x...)  _xprintf(stdout, NULL, 0, NULL, x)
 #define xassert(exp)  ((exp) ? (void)0 : _xassert(stdout, __FILE__, __LINE__, __FUNCTION__, #exp))
 #endif
 
+/* dump info to stderr with 'red bold' termial color-style */
+#define xerror(x...)  do{\
+                        _xprintf(stderr, __FILE__, __LINE__, __FUNCTION__, x); \
+                        color_fprintf(stderr, "red bold", " Tracing: %s\n", errno ? strerror(errno) : "Tracing failed"); \
+                      }while(0)
+/* xdie will log and print out error messages, then exit with abort() */                        
+#define xdie(x...)   do{xlogerr(x);xerror(x);abort();}while(0)
+                            
 #define xlog(priority, fmt...)  _xsyslog(priority, __FILE__, __LINE__, __FUNCTION__, fmt)
-#define xlogerr(fmt...)    _xsyslog(LOG_ERR, __FILE__, __LINE__, __FUNCTION__, fmt)
+#define xlogerr(fmt...)         _xsyslog(LOG_ERR, __FILE__, __LINE__, __FUNCTION__, fmt)
 #define xloginfo(fmt...)        _xsyslog(LOG_INFO, __FILE__, __LINE__, __FUNCTION__, fmt)
 #define xlogwarn(fmt...)        _xsyslog(LOG_WARNING, __FILE__, __LINE__, __FUNCTION__, fmt)
 
-#else
+#else /* XDEBUG */
 #define xprintf(x...) 
 #define xerror(x...) {}
 #define xdie(x...) {}
 
-#define xassert(exp) 
+#define xassert(exp)
 #define xlog(priority, fmt...)
 #define xlogerr(fmt...)  
 #define xloginfo(fmt...)        
 #define xlogwarn(fmt...)      
 
-#endif
-/* xdie dump info and laster error to stderr and exit with abort */                        
-#define xdie(x...)   do{    xlogerr(x);\
-          xerror(x);\
-          abort();\
-      }while(0)
-
-          
-#else
-
-void xprintf(const char *s, ...);
-void xerror(const char *s, ...);
-void xdie(const char *s, ...);
-#endif
+#endif /* XDEBUG */
 
 #endif /* XDEBUG_H */

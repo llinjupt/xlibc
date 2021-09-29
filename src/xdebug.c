@@ -1,3 +1,24 @@
+/*
+ * Powered by BiTForest Co., Ltd 
+ *
+ * Copyright (C) 2018-2021 Red Liu <lli_njupt@163.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ */
+ 
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdarg.h>
@@ -16,7 +37,6 @@
 
 #include "xdebug.h"
 
-#ifdef XDEBUG
 /* 
  * xlog 系统策略：如果没有设置 log file，则默认调用 syslog; 基于嵌入式系统的考虑，
  * ram或者flash是非常宝贵的资源，所以默认通过 XLOG_LIMIT_SIZE 限制了文件大小，
@@ -72,23 +92,22 @@ void _xprintf(FILE *ofp,
   /* just try to print out to console */
   if(fp == NULL)
   {
-    fp = fopen("/dev/console", "a+");
+    fp = fopen(XDEBUG_REDIRECT_FILE, "a+");
     if(fp == NULL)
     {
-      fprintf(stderr, "open /dev/console error %s\n", funcname);
+      fprintf(stderr, "Faile to open %s!\n", XDEBUG_REDIRECT_FILE);
       return;
     }
   }
   
   va_start(arg, fmt);
-#ifndef XDEBUG_PURE  
+#ifdef XDEBUG_VERBOSE
   if(filename && funcname)
   {
     char *tmp = rindex(filename, '/');
     fprintf(fp, "=%s/%s(%d)= ", tmp ? tmp + 1 : filename, funcname, line);
   }
-#endif  
-
+#endif
   if(vasprintf(&msg, fmt, arg) < 0)
   {
     fprintf(fp, "Xdebug Memory exhausted!\n");
@@ -108,7 +127,7 @@ out:
     fclose(fp);
   if(msg)
     free(msg);
-    
+
   return;
 }
 
@@ -433,7 +452,7 @@ void _xsyslog(int priority,
     return;
   
   va_start(arg, fmt);
-#ifndef XDEBUG_PURE
+#ifdef XDEBUG_VERBOSE
   if(filename && funcname)
   {
     char *tmp = rindex(filename, '/');
@@ -487,14 +506,14 @@ out:
 /* dump with colors */
 static int parse_color(const char *name, int len)
 {
+  char *end = NULL;
+  int i = 0;
+  
   static const char * const color_names[] = 
   {
     "normal", "black", "red", "green", "yellow",
     "blue", "magenta", "cyan", "white"
   };
-  
-  char *end;
-  int i;
   
   for(i = 0; i < ARRAY_SIZE(color_names); i++)
   {
@@ -512,13 +531,14 @@ static int parse_color(const char *name, int len)
 
 static int parse_attr(const char *name, int len)
 {
+  int i = 0;
+  
   static const int attr_values[] = { 1, 2, 4, 5, 7 };
   static const char * const attr_names[] =
   {
     "bold", "dim", "ul", "blink", "reverse"
   };
   
-  int i;
   for(i = 0; i < ARRAY_SIZE(attr_names); i++)
   {
     const char *str = attr_names[i];
@@ -529,7 +549,8 @@ static int parse_attr(const char *name, int len)
   return -1;
 }
 
-/* try to parse color restrictions: vlaue ([fg [bg]] [attr]... ) 
+/*
+ * Try to parse color disciplines: vlaue ([fg [bg]] [attr]... ) 
  * to color code: dst
  */
 static void color_parse(char *dst, const char *value)
@@ -541,13 +562,15 @@ static void color_parse(char *dst, const char *value)
   int fg = -2;
   int bg = -2;
 
-  if (!strncasecmp(value, "reset", len)) {
+  if (!strncasecmp(value, "reset", len)) 
+  {
     strcpy(dst, COLOR_RESET);
     return;
   }
 
   /* [fg [bg]] [attr]... */
-  while (len > 0) {
+  while (len > 0) 
+  {
     const char *word = ptr;
     int val, wordlen = 0;
 
@@ -635,7 +658,7 @@ bad:
 }
 
 static int color_vfprintf(FILE *fp, const char *color_code, const char *fmt,
-    va_list args, const char *trail)
+                          va_list args, const char *trail)
 {
   int r = 0;
 
@@ -665,5 +688,14 @@ void color_fprintf(FILE *fp, const char *color, const char *fmt, ...)
   fflush(fp);
 }
 
-#endif /* XDEBUG */
-
+#ifdef TEST
+void test_xdebug()
+{
+  xprintf("%s", "xprintf\n");
+  xiprintf("%s", "xiprintf\n");
+  xwprintf("%s", "xwprintf\n");
+  xerror("%s", "xerror");
+  xassert(1 == 0);
+  //xdie("%s", "xdie");
+}
+#endif
