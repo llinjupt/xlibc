@@ -225,7 +225,8 @@ int xsetif_hwaddr(unsigned char hwaddr[6], const char *ifname)
   
   if(xmac2str(macstr, hwaddr) != 0)
     return -1;
-    result_len = xscomb_cmd(&result, "ifconfig %s down && ifconfig %s hw ether %s && ifconfig %s up", ifname, ifname, macstr, ifname);
+  result_len = xscomb_cmd(&result, "ifconfig %s down && ifconfig %s hw ether %s && ifconfig %s up", 
+		          ifname, ifname, macstr, ifname);
   if(result_len == 0)
     return 0;
   

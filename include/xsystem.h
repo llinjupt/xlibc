@@ -17,9 +17,9 @@ typedef enum
 
 endian_t xendian();
 
-inline uint16_t xswap16(uint16_t x);
-inline uint32_t xswap32(uint32_t x);
-inline uint64_t xswap64(uint64_t x);
+extern inline uint16_t xswap16(uint16_t x);
+extern inline uint32_t xswap32(uint32_t x);
+extern inline uint64_t xswap64(uint64_t x);
 
 void xkill_bypid(int *pids, int size);
 int xgetpid_byname(const char *procname, int *findpids, int size);

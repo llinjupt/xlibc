@@ -14,8 +14,8 @@
 /* below funcs of addr conversion are recommand for support different 
  * domain(AF_INET/AF_INET6). Err then die!
  */
-inline int xinet_ntop(int af, const void *src, char *dst, socklen_t cnt);
-inline int xinet_pton(int af, const char *src, void *dst);
+int xinet_ntop(int af, const void *src, char *dst, socklen_t cnt);
+int xinet_pton(int af, const char *src, void *dst);
 int is_valid_ip(char *ip);
 
 const char *xip_subnet(const char *ip, const char *mask);

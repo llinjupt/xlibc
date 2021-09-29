@@ -303,7 +303,7 @@ static int xlogswap()
 
     // ftruncate(fileno(xlogctl.fp), 0);
     snprintf(swap, PATH_MAX, "%s%s", xlogctl.file, 
-             XLOG_SWAP_SUFFIX);
+             XLOG_SWAP_SUFFIX) < 0 ? abort() : (void)0;
     unlink(swap);
     
     /* FixME. with cp will not need xlogfile, but no c desc */
@@ -389,8 +389,8 @@ int xlogfile(const char *newfile)
     /* abs path */
     if(logfile[0] != '/')
     {
-      snprintf(logfile, PATH_MAX, "%s/%s", XLOG_PATH, xlogctl.file);
-      snprintf(xlogctl.file, PATH_MAX, "%s", logfile);
+      snprintf(logfile, PATH_MAX, "%s/%s", XLOG_PATH, xlogctl.file) < 0 ? abort() : (void)0;
+      snprintf(xlogctl.file, PATH_MAX, "%s", logfile) < 0 ? abort() : (void)0;
     }
 
     xlogctl.fp = fopen(xlogctl.file, "a+");

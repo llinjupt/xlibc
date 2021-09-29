@@ -56,23 +56,23 @@ struct aftype *get_afntype(int type);
 void          print_aflist(int type);
 int           hw_null_address(struct hwtype *hw, void *addr);
 
-inline int xgetif_flags(short *flags, const char *ifname);
+extern inline int xgetif_flags(short *flags, const char *ifname);
 int xsetif_flag(const char *ifname, short flag);
 int xclrif_flag(const char *ifname, short flag);
 
-inline int xgetif_hwaddr(unsigned char hwaddr[6], const char *ifname);
+extern inline int xgetif_hwaddr(unsigned char hwaddr[6], const char *ifname);
 int xsetif_hwaddr(unsigned char hwaddr[6], const char *ifname);
 
-inline int xgetif_metric(int *metric, const char *ifname);
-inline int xgetif_mtu(int *mtu, const char *ifname);
-inline int xgetif_txqlen(int *txqlen, const char *ifname);
-inline int xgetif_index(int *index, const char *ifname);
+extern inline int xgetif_metric(int *metric, const char *ifname);
+extern inline int xgetif_mtu(int *mtu, const char *ifname);
+extern inline int xgetif_txqlen(int *txqlen, const char *ifname);
+extern inline int xgetif_index(int *index, const char *ifname);
 
 /* very usefull functions when you want to bind IF info to a socket */
-inline int xgetif_addr(struct sockaddr *addr, const char *ifname);
-inline int xgetif_dstaddr(struct sockaddr *addr, const char *ifname);
-inline int xgetif_brdaddr(struct sockaddr *addr, const char *ifname);
-inline int xgetif_maskaddr(struct sockaddr *addr, const char *ifname);
+extern inline int xgetif_addr(struct sockaddr *addr, const char *ifname);
+extern inline int xgetif_dstaddr(struct sockaddr *addr, const char *ifname);
+extern inline int xgetif_brdaddr(struct sockaddr *addr, const char *ifname);
+extern inline int xgetif_maskaddr(struct sockaddr *addr, const char *ifname);
 
 int xgetif_strip(char *addrstr, const char *ifname,  \
                  int(*xgetif_fun)(struct sockaddr*, const char *));
@@ -81,16 +81,16 @@ int xgetif_strip(char *addrstr, const char *ifname,  \
 #define xgetif_strbrdaddr(addrstr, ifname) xgetif_strip(addrstr, ifname, xgetif_brdaddr)
 #define xgetif_strmaskaddr(addrstr, ifname) xgetif_strip(addrstr, ifname, xgetif_maskaddr)
 
-inline int xsetif_addr(struct sockaddr *addr, const char *ifname);
-inline int xsetif_maskaddr(struct sockaddr *addr, const char *ifname);
+extern inline int xsetif_addr(struct sockaddr *addr, const char *ifname);
+extern inline int xsetif_maskaddr(struct sockaddr *addr, const char *ifname);
 
 int xsetif_strip(char *addrstr, const char *ifname,  \
                  int(*xsetif_fun)(struct sockaddr*, const char *));
 #define xsetif_straddr(addrstr, ifname) xsetif_strip(addrstr, ifname, xsetif_addr)
 #define xsetif_strmaskaddr(addrstr, ifname) xsetif_strip(addrstr, ifname, xsetif_maskaddr)
 
-inline int xsetif_promisc(const char *ifname);
-inline int xclrif_promisc(const char *ifname);
+extern inline int xsetif_promisc(const char *ifname);
+extern inline int xclrif_promisc(const char *ifname);
 
 int get_default_gw(unsigned char gateway[16]);
 int set_default_gw(unsigned char gateway[16]);

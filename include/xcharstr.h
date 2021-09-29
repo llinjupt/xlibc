@@ -12,7 +12,7 @@ int xstrncat(char *dst, const char *src, size_t siz);
 int xstrlower(char *str);
 int xstrupper(char *str);
 
-inline size_t xstrlen(const char *s);
+extern inline size_t xstrlen(const char *s);
 int xstrcmp(const char *s1, const char *s2);
 int xstrcasecmp(const char *s1, const char *s2);
 int xstrncmp(const char *s1, const char *s2, size_t len);

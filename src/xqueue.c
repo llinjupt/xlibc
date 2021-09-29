@@ -8,12 +8,12 @@
 
 xqueue_t g_xqueue;
 
-inline void xqueue_lock(xqueue_t *head)
+static inline void xqueue_lock(xqueue_t *head)
 {
   pthread_mutex_lock(&head->xqueue_rwlock);
 }
 
-inline void xqueue_unlock(xqueue_t *head)
+static inline void xqueue_unlock(xqueue_t *head)
 {
   pthread_mutex_unlock(&head->xqueue_rwlock);
 }

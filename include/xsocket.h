@@ -103,14 +103,14 @@ int xselect(int nfds, fd_set *readfds, fd_set *writefds,
                   
 ssize_t xsendto(int s, const void *buf, size_t len, const struct sockaddr *to, socklen_t tolen);
 
-inline int setsockopt_reuseaddr(int fd);
-inline int setsockopt_broadcast(int fd);
-inline int setsockopt_attachfilter(int fd, struct sock_fprog *filter);
+extern inline int setsockopt_reuseaddr(int fd);
+extern inline int setsockopt_broadcast(int fd);
+extern inline int setsockopt_attachfilter(int fd, struct sock_fprog *filter);
 int setsockopt_bindtodevice(int fd, const char *iface);
 int setsockopt_keealive(int fd, int keep_idle, int keep_interval, int keep_count);
 
-inline lsockaddr *get_sock_lsa(int fd);
-inline lsockaddr *get_peer_lsa(int fd);                        
+extern inline lsockaddr *get_sock_lsa(int fd);
+extern inline lsockaddr *get_peer_lsa(int fd);                        
 
 unsigned lookup_port(const char *port, const char *protocol, unsigned default_port);
 

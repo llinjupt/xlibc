@@ -16,7 +16,7 @@
  * or inet_pton which can support both of ipv4  and ip6.
  */
 
-inline int xinet_ntop(int af, const void *src, char *dst, socklen_t cnt)
+int xinet_ntop(int af, const void *src, char *dst, socklen_t cnt)
 {
   inet_ntop(af, src, dst, cnt);
   if(dst == NULL)
@@ -26,7 +26,7 @@ inline int xinet_ntop(int af, const void *src, char *dst, socklen_t cnt)
   return 0; 
 }
 
-inline int xinet_pton(int af, const char *src, void *dst)
+int xinet_pton(int af, const char *src, void *dst)
 {
   /* inet_pton() returns a negative value and sets errno to EAFNOSUPPORT if af 
    * does not contain a valid address fam-ily.   0 is  returned  if  src does 

@@ -10,7 +10,7 @@ int xmac2str2(char *macstr, const unsigned char mac[6]);
 void xmac_add1(unsigned char mac[6]);
 void xmac_sub1(unsigned char mac[6]);
 
-void inline xprintmac(unsigned char mac[6]);
+extern inline void xprintmac(unsigned char mac[6]);
 
 typedef enum
 {

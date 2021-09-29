@@ -86,4 +86,6 @@ void hash_clean (struct hash *);
 void hash_free (struct hash *);
 int hash_buffer(struct hash *hash, char **data);
 
+extern inline void hash_lock(struct hash *hash);
+extern inline void hash_unlock(struct hash *hash);
 #endif /* XHASH_H */

@@ -11,7 +11,7 @@ include ./make.def
 #global directory defined
 GDB          = 0
 TOPDIR       = $(shell pwd)
-SRCDIR	 		 = $(TOPDIR)/src
+SRCDIR	     = $(TOPDIR)/src
 TARGET_DIR   = $(TOPDIR)/
 LIB_DIR      = $(TOPDIR)/lib
 OBJECTDIR    = $(TOPDIR)/build
@@ -29,14 +29,14 @@ TARGETLIBS  = libx.a
 TARGETSLIBS = libx.so
 
 #FILE' INFOMATION COLLECT
-VPATH 			= $(shell ls -AxR $(SRCDIR)|grep ":"|grep -v "\.svn"|tr -d ':')
-SOURCEDIRS	= $(VPATH)
+VPATH       = $(shell ls -AxR $(SRCDIR)|grep ":"|grep -v "\.svn"|tr -d ':')
+SOURCEDIRS  = $(VPATH)
 
 #search source file in the current dir
-SOURCES  	= $(foreach subdir,$(SOURCEDIRS),$(wildcard $(subdir)/*.c))
-OBJS 			= $(patsubst %.c,%.o,$(SOURCES))
-BUILDOBJS = $(subst $(SRCDIR),$(OBJECTDIR),$(OBJS))
-DEPS			= $(patsubst %.o,%.d,$(BUILDOBJS))
+SOURCES     = $(foreach subdir,$(SOURCEDIRS),$(wildcard $(subdir)/*.c))
+OBJS        = $(patsubst %.c,%.o,$(SOURCES))
+BUILDOBJS   = $(subst $(SRCDIR),$(OBJECTDIR),$(OBJS))
+DEPS        = $(patsubst %.o,%.d,$(BUILDOBJS))
 
 #external include file define
 CFLAGS	= -Wall -MD $(foreach dir,$(INCLUDEDIR),-I$(dir))
@@ -50,10 +50,10 @@ CFLAGS += -ggdb3
 endif
 
 #c file compile parameters and linked libraries
-CPPFLAGS    = -fPIC
-LDFLAGS	    = -lm
+CPPFLAGS   = -fPIC
+LDFLAGS	   = -lm
 XLDFLAGS   = -Xlinker "-(" $(LDFLAGS) -Xlinker "-)"
-LDLIBS		 += -L $(LIB_DIR) 
+LDLIBS     += -L $(LIB_DIR) 
 
 #defaut target:compile the currrent dir file and sub dir 
 all: $(TARGETLIBS) $(TARGETSLIBS)

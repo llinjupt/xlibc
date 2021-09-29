@@ -32,8 +32,8 @@ void xfds_nonblk(int *fd, int maxfds, int set);
 FILE *xtmpfile_create(const char *mode);
 int xtmpfile_remove(FILE  *fp);
 
-inline int xfile_fd(FILE *fp);
-inline FILE *xfile_fp(int fd, const char *mode);
+extern inline int xfile_fd(FILE *fp);
+extern inline FILE *xfile_fp(int fd, const char *mode);
 
 int xfile_name(char name[FILENAMSIZ], int fd);
 int xfile_name2(char name[FILENAMSIZ], FILE *fp);
