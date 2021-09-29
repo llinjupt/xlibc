@@ -1,3 +1,6 @@
+# Tmp files
+xtest
+
 # Object files
 *.o
 *.ko
