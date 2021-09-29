@@ -1,0 +1,56 @@
+Refer to below linkers:
+1.https://gcc.gnu.org/onlinedocs/gcc/Inline.html
+2.https://www.avrfreaks.net/forum/declaring-function-extern-inline-header-file.
+
+All in all, for new(>=4.7) gcc -std=c99/c11, with inline keyword you can do and only do below cases without warning:
+1. -finline-functions: direct GCC to try to integrate all ¡°simple enough¡± functions into their callers.
+2. If the inline function is only used inside one *.c, just use the ¡°static inline¡° keyword in its declaration inside the *.c:
+  *.c
+  static inline int inc (int *a)
+  {
+    return (*a)++;
+  }
+3. The inline function is called from multiple source files, then declare and define it in the *.h with "extern inline" keywords
+  and never define it in the .c:
+  *.h
+  extern inline int inc (int *a)
+  {
+    return (*a)++;
+  }
+  
+  *.c
+  #include "*.h"
+  int caller()
+  {
+    int a = 0;
+    return inc(&a);
+  }
+
+Following possible combinations and warnings:
+
+1.     code.c                               header.h
+       nothing                        inline function(void);
+                                      inline function(void){ definition}
+-> Code inline (no opcode "mcall" present in disassembly) and no warnings
+
+2.     code.c                               header.h
+       nothing                        inline function(void){ definition}  
+-> Code inline but warnings about no prototype present
+
+3.     code.c                               header.h
+    function(void){ definition}   extern inline function(void){ definition} 
+-> Does not compile, complains about redefinition of function. Does this work only with "Library" files which are different to standard C files?
+
+4.     code.c                               header.h
+   inline function(void){ definition}    extern inline function(void);  
+-> Code not inline, (opcode: mcall present) and warning about functions being declared but not defined.
+
+5.     code.c                               header.h
+   inline function(void){ definition}    extern function(void);  
+-> Code not inline, (opcode: mcall present) and no warnings.
+
+So in short if you want inline global functions with no warning from the compiler you need to put both prototype and definition in the header file as previously mentioned.
+
+But having the extern attribute to an inline prototype will produce lots of complains.
+
+And you cannot have two definitions of the same functions one in the header file and one in the code file.
