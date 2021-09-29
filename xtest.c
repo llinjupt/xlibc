@@ -42,8 +42,8 @@ int main(int argc, char *argv[])
   test_socket();
   test_xurl();
   test_xfcfg();
-#endif
   test_eloop();
-  
+#endif
+
   return 0;
 }

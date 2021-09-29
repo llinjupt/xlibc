@@ -426,7 +426,7 @@ void test_xfile()
     size_t count = 0;
     result = xfile_read(fd, &count);
     
-    printf("count:%d\n", count);
+    printf("count:%ld\n", count);
     if(count > 0)
     {
       printf("result:%s\n", result);
