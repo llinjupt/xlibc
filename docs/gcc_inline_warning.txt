@@ -1,0 +1,3 @@
+Refer to https://www.avrfreaks.net/forum/declaring-function-extern-inline-header-file.
+
+
