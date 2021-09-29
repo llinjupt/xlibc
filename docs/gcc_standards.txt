@@ -1,0 +1,32 @@
+Refer to below linkers
+1. https://gcc.gnu.org/onlinedocs/gcc/Standards.html
+
+How to check the C standard that is supported by current GCC:
+$ gcc  -E -dM - < /dev/null |grep __STDC_VERSION__
+
+Normally, the default result is "#define __STDC_VERSION__ 201112L" which means C11.
+C11 is the fourth version of the C standard, was published in 2011 as ISO/IEC 9899:2011.
+
+Using c99 as the standard:
+$ gcc -std=c99 -E -dM - < /dev/null |grep __STDC_VERSION__
+
+If the result is empty, then c89 is used and notice that:
+C89=C90£º-ansi, -std=c90 or -std=iso9899:1990;
+         with GNU extensions: -std=gnu90
+C94=C95£º-std=iso9899:199409
+C99    : -std=c99 or -std=iso9899:1999
+         with GNU extensions: -std=gnu99
+C11    £º-std=c11 or -std=iso9899:2011
+         with GNU extensions: -std=gnu11
+
+Below are general options for -std:
+-std=c11 Conform to the ISO 2011 C standard (C11)
+-std=c89 Conform to the ISO 1990 C standard (C89)
+-std=c90 Conform to the ISO 1990 C standard (C90)
+-std=c99 Conform to the ISO 1999 C standard (C99)
+-std=gnu11 Conform to the ISO 2011 C standard with GNU extensions
+-std=gnu89 Conform to the ISO 1990 C standard with GNU extensions
+-std=gnu90 Conform to the ISO 1990 C standard with GNU extensions
+-std=gnu99 Conform to the ISO 1999 C standard with GNU extensions
+
+Default is -std=gnu11 since GCC v4.7.
