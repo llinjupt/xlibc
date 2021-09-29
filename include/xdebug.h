@@ -47,6 +47,7 @@ void _xprintf(FILE *fp,
               const char *funcname, 
               const char *fmt, ...)__attribute__((format(printf, 5, 6)));
 
+/* print, log then abort()  */
 void _xassert(FILE *fp,
               const char *filename,
               const int line,
@@ -54,6 +55,8 @@ void _xassert(FILE *fp,
               const char *expstr);
 
 void xdumphex(const void *addr, unsigned int len);
+void xdump_prefix(const char *prefix, const void *addr, unsigned int len);
+#define xdump(addr, len)  do{xdump_prefix(NULL, addr, len);}while(0)
 
 #define XLOG_WITH_PRINT
 void _xsyslog(int priority,
@@ -124,7 +127,7 @@ void color_fprintf(FILE *fp, const char *color, const char *fmt, ...)__attribute
 #define xprintf(x...)  _xprintf(stdout, __FILE__, __LINE__, __FUNCTION__, x)
 #else
 #define xprintf(x...)  _xprintf(stdout, NULL, 0, NULL, x)
-#define xassert(exp)  ((exp) ? (void)0 : _xassert(stdout, __FILE__, __LINE__, __FUNCTION__, #exp))
+#define xassert(exp)  ((exp) ? (void)0 : _xassert(stdout, NULL, 0, NULL, #exp))
 #endif
 
 /* dump info to stderr with 'red bold' termial color-style */

@@ -79,6 +79,15 @@ void xlogdump()
   printf("xlogctl.syslog:\t%d\n", xlogctl.syslog);
 }
 
+static inline FILE *redict_file_open()
+{
+  FILE *fp = fopen(XDEBUG_REDIRECT_FILE, "a+");
+  if(fp == NULL)
+    fprintf(stderr, "Faile to open %s!\n", XDEBUG_REDIRECT_FILE);
+  
+  return fp;
+}
+
 void _xprintf(FILE *ofp,
               const char *filename,
               const int line,
@@ -89,16 +98,11 @@ void _xprintf(FILE *ofp,
   va_list arg;
   FILE *fp = ofp;
   
-  /* just try to print out to console */
-  if(fp == NULL)
-  {
-    fp = fopen(XDEBUG_REDIRECT_FILE, "a+");
-    if(fp == NULL)
-    {
-      fprintf(stderr, "Faile to open %s!\n", XDEBUG_REDIRECT_FILE);
-      return;
-    }
-  }
+  /* try to print out to XDEBUG_REDIRECT_FILE */
+  if(!fp)
+    fp = redict_file_open();
+  if(!fp)
+    return;
   
   va_start(arg, fmt);
 #ifdef XDEBUG_VERBOSE
@@ -187,16 +191,12 @@ void xdumphex(const void *addr, unsigned int len)
   int tail =  len % XDUMP_LINE_LEN;
   int lineno = len / XDUMP_LINE_LEN;
 
-  /* just try to print out to console */
-#ifdef XDEBUG_CGI  
-  out = fopen("/dev/console", "a+");
-  if(out == NULL)
-  {
-    fprintf(stderr, "open /dev/console error\n");
+  /* try to print out to XDEBUG_REDIRECT_FILE */
+  if(!out)
+    out = redict_file_open();
+  if(!out)
     return;
-  }
-#endif
-
+    
   for(i = 0; j < lineno; i += XDUMP_LINE_LEN, j++)
   {
     xdumpline(out, j, addr + i, XDUMP_LINE_LEN);
@@ -214,6 +214,25 @@ void xdumphex(const void *addr, unsigned int len)
 #ifdef XDEBUG_CGI  
   fclose(out);
 #endif  
+}
+
+void xdump_prefix(const char *prefix, const void *addr, unsigned int len)
+{
+  unsigned int i = 0;
+  const unsigned char *src = addr;
+  
+  if(prefix)
+    printf("%s", prefix);
+
+  for(; i < len; i++)
+  {
+    /* every 8 hexes, add a split character ' ' */
+    if(i && i % 8 == 0)
+      putchar(' ');
+    printf("%02x ", src[i]);
+  }
+  
+  printf("\n");
 }
 
 /******************** below are for xlog ********************************/
@@ -691,11 +710,17 @@ void color_fprintf(FILE *fp, const char *color, const char *fmt, ...)
 #ifdef TEST
 void test_xdebug()
 {
+  char buffer[64];
+  
   xprintf("%s", "xprintf\n");
   xiprintf("%s", "xiprintf\n");
   xwprintf("%s", "xwprintf\n");
   xerror("%s", "xerror");
-  xassert(1 == 0);
+  xdumphex("123", 3);
+  xdump_prefix(">", buffer, 64);
+  xdump(buffer, 64);
+  
+  //xassert(1 == 0);
   //xdie("%s", "xdie");
 }
 #endif
