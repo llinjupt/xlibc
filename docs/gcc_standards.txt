@@ -11,12 +11,12 @@ Using c99 as the standard:
 $ gcc -std=c99 -E -dM - < /dev/null |grep __STDC_VERSION__
 
 If the result is empty, then c89 is used and notice that:
-C89=C90£º-ansi, -std=c90 or -std=iso9899:1990;
+C89=C90: -ansi, -std=c90 or -std=iso9899:1990;
          with GNU extensions: -std=gnu90
-C94=C95£º-std=iso9899:199409
+C94=C95: -std=iso9899:199409
 C99    : -std=c99 or -std=iso9899:1999
          with GNU extensions: -std=gnu99
-C11    £º-std=c11 or -std=iso9899:2011
+C11    : -std=c11 or -std=iso9899:2011
          with GNU extensions: -std=gnu11
 
 Below are general options for -std:
