@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <sys/sysinfo.h>
 
-#include "libx.h"
+#include "xtime.h"
+#include "xexccmd.h"
 
 /* stolen from busybox libbb time.c */
 
@@ -113,7 +114,7 @@ int set_systime(int year, int month, int day, int hour, int minute, int second)
                    day, hour, minute, second);
 }
 
-inline int xtime_year()
+int xtime_year()
 {
   struct tm *p;
 
@@ -122,7 +123,7 @@ inline int xtime_year()
 }
 
 /* 0 - 11 mean Jan to Desc */
-inline int xtime_month()
+int xtime_month()
 {
   struct tm *p;
 
@@ -130,7 +131,7 @@ inline int xtime_month()
   return p ? p->tm_mon : -1;
 }
 
-inline int xtime_day()
+int xtime_day()
 {
   struct tm *p;
 
@@ -138,7 +139,7 @@ inline int xtime_day()
   return p ? p->tm_mday : -1;
 }
 
-inline int xtime_week()
+int xtime_week()
 {
   struct tm *p;
 
@@ -146,7 +147,7 @@ inline int xtime_week()
   return p ? p->tm_wday : -1;
 }
 
-inline int xtime_hour()
+int xtime_hour()
 {
   struct tm *p;
 
@@ -154,7 +155,7 @@ inline int xtime_hour()
   return p ? p->tm_hour : -1;
 }
 
-inline int xtime_minute()
+int xtime_minute()
 {
   struct tm *p;
 
@@ -162,7 +163,7 @@ inline int xtime_minute()
   return p ? p->tm_min : -1;
 }
 
-inline int xtime_second()
+int xtime_second()
 {
   struct tm *p;
 

@@ -17,11 +17,11 @@ int set_systime(int year, int month, int day, int hour, int minute, int second);
 int xtime_gmt_setime(long second);
 long xtime_gmt_second();
 
-extern inline int xtime_year();
-extern inline int xtime_month();
-extern inline int xtime_day();
-extern inline int xtime_week();
-extern inline int xtime_hour();
-extern inline int xtime_minute();
-extern inline int xtime_second();
+extern int xtime_year();
+extern int xtime_month();
+extern int xtime_day();
+extern int xtime_week();
+extern int xtime_hour();
+extern int xtime_minute();
+extern int xtime_second();
 #endif /* XTIME_H */
