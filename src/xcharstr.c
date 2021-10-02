@@ -1,16 +1,11 @@
 #define _GNU_SOURCE         /* See feature_test_macros(7) */
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <unistd.h>
-#include <netdb.h>
 #include <ctype.h>
-#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <error.h>
 #include <strings.h>
-#include <assert.h>
 
 #include "xcharstr.h"
 #include "xdebug.h"

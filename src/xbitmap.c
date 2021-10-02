@@ -1,13 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
-#include <unistd.h>
-#include <netdb.h>
 #include <ctype.h>
-#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <error.h>
 
 #include "xbitmap.h"
 #include "xdebug.h"
